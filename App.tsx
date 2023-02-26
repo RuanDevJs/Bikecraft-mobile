@@ -1,22 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider } from "styled-components/native";
+import { 
+  useFonts,
+  Poppins_300Light,
+  Poppins_600SemiBold
+} from "@expo-google-fonts/poppins";
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import Home from "./src/Screens/Home";
+import theme from "./src/theme";
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+  const [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_600SemiBold
+  });
 
-  if (!isLoadingComplete) {
+  if(!fontsLoaded){
     return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    );
   }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Home />
+    </ThemeProvider>
+  )
 }
